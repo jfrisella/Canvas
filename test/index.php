@@ -3,25 +3,21 @@
 *   Test Canvas
 */
 
-$items = [
-    "key" => "mykey",
-    "secret" => "mysecretcode",
-    "path" => "https://www.somepath.com/Canvas/LTI/",
-    "method" => "POST",
-    "post" => $_POST
-];
+$key = "mypublickey";
+$secret = "mysecret";
 
 
 $canvas = new \Canvas\CanvasLTI($key, $secret);
-$canvas->validate([
-    "path" => "",
-    "action" => "",
-    "parameters" => ""
-]);
+$canvas->setPath("https://www.somepath.com/Canvas/App/");
+$canvas->setAction("POST");
+$output = $canvas->validate($_POST);
 
 
-if($canvas->isSuccess()){
-    echo "success";
+if($output->isSuccess()){
+    echo $output->getMessage();
+    echo $output->getStatus();
+    echo $output->getResult();
 }else{
-    echo "fail";
+    echo $output->getMessage();
+    echo $output->getStatus();
 }
