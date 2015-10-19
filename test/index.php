@@ -7,7 +7,7 @@ $key = "mypublickey";
 $secret = "mysecret";
 
 
-$canvas = new \Canvas\CanvasLTI($key, $secret);
+$canvas = new \VJS\Canvas\CanvasLTI($key, $secret);
 $canvas->setPath("https://www.somepath.com/Canvas/App/");
 $canvas->setAction("POST");
 $output = $canvas->validate($_POST);

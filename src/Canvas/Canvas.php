@@ -2,7 +2,7 @@
 /**
 *   Canvas Class
 */  
-namespace Canvas;
+namespace VJS\Canvas;
 
 class CanvasLTI
 {
@@ -81,7 +81,7 @@ class CanvasLTI
             return $this->_validate();
         
         }catch(\Exception $e){
-            return new \Canvas\CanvasOutput($e->getCode(), $e->getMessage());
+            return new \VJS\Canvas\CanvasOutput($e->getCode(), $e->getMessage());
         }
         
     }
@@ -95,28 +95,28 @@ class CanvasLTI
     protected function _validate(){
     
         if(!isset($this->parameters["oauth_signature"]) || empty($this->parameters["oauth_signature"])){
-            throw new Exception("CanvasLTI : validate : missing or empty oauth_signature", 400);
+            throw new \Exception("CanvasLTI : validate : missing or empty oauth_signature", 400);
         }
         if(!isset($this->parameters["oauth_timestamp"]) || empty($this->parameters["oauth_timestamp"])){
-            throw new Exception("CanvasLTI : validate : missing or empty oauth_timestamp", 400);
+            throw new \Exception("CanvasLTI : validate : missing or empty oauth_timestamp", 400);
         }
         if(!isset($this->parameters["oauth_consumer_key"]) || empty($this->parameters["oauth_consumer_key"])){
-            throw new Exception("CanvasLTI : validate : missing or empty oauth_consumer_key", 400);
+            throw new \Exception("CanvasLTI : validate : missing or empty oauth_consumer_key", 400);
         }
         
         //Test oauth_timestamp
         $time = time();
         $diff = $time - intval($this->parameters["oauth_timestamp"]);
         if($diff > $this->timestamp && $diff < 0){
-            throw new Exception("CanvasLTI : validate : stale timestamp", 400);
+            throw new \Exception("CanvasLTI : validate : stale timestamp", 400);
         }
         
         //Test signature
         if(!$this->_testSignature()){
-            throw new Exception("CanvasLTI : validate : signatures do not match", 400);
+            throw new \Exception("CanvasLTI : validate : signatures do not match", 400);
         }
         
-        return new \Canvas\CanvasOutput(200, "success", $this->parameters);
+        return new \VJS\Canvas\CanvasOutput(200, "success", $this->parameters);
         
     }
     
@@ -132,7 +132,7 @@ class CanvasLTI
         $params = $this->parameters;
         unset($params["oauth_signature"]);
         
-        $oauth = new \BaglerIT\OAuthSimple( $this->key , $this->secret );
+        $oauth = new \OAuthSimple( $this->key , $this->secret );
         $results = $oauth->sign(Array(  'action'=> $this->action,
                                         'path'=>$this->path,
                                         'parameters'=>$params));

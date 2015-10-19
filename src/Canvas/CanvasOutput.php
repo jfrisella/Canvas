@@ -2,7 +2,7 @@
 /**
 *   Canvas Output
 */
-namespace Canvas;
+namespace VJS\Canvas;
 
 class CanvasOutput
 {
