@@ -81,7 +81,7 @@ class CanvasLTI
             return $this->_validate();
         
         }catch(\Exception $e){
-            return new \VJS\Canvas\CanvasOutput($e->getCode(), $e->getMessage());
+            return new \VJS\Canvas\CanvasOutput($e->getCode(), $e->getMessage(), $this->parameters);
         }
         
     }
